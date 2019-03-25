@@ -10,11 +10,11 @@ class UsersController < ApplicationController
   
   def search
     if params[:search_param].blank?
-      flash.now[:danger] = "You have entered an empty search string"
+      flash.now[:danger] = "空白では検索できません"
     else
       @users = User.search(params[:search_param])
       @users = current_user.except_current_user(@users)
-      flash.now[:danger] = "No users match this search criteria" if @users.blank?
+      flash.now[:danger] = "該当するデータがありませんでした" if @users.blank?
     end
     respond_to do |format|
       format.js { render partial: 'friends/result' }
@@ -25,9 +25,9 @@ class UsersController < ApplicationController
     @friend = User.find(params[:friend])
     current_user.friendships.build(friend_id: @friend.id)
     if current_user.save
-      flash[:notice] = "Friend was successfully added"
+      flash[:notice] = "友達に加わりました"
     else
-      flash[:danger] = "There was something wrong with the friend request"
+      flash[:danger] = "不正なデータが送られました"
     end  
     redirect_to my_friends_path
   end

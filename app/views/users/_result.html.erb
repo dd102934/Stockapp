@@ -10,17 +10,17 @@
     <strong>Price: </strong> <%= @stock.last_price %>
     
     <% if current_user.can_add_stock?(@stock.ticker) %>
-      <%= link_to "Add to my stocks", 
+      <%= link_to "ポートフォリオに加える", 
         user_stocks_path(user: current_user, stock_ticker: @stock.ticker),
                                 class: "btn btn-xs btn-success", method: :post %>
     <% else %>
       <span class="label label-default">
-        Stock cannot be added because you have already added
+        株式は追加できません！既に
         <% if !current_user.under_stock_limit? %>
-          10 stocks
+         10株に達しています
         <% end %>
         <% if current_user.stock_already_added?(@stock.ticker) %>
-          this stock
+          この株が追加されています
         <% end %>
       </span>
     <% end %>
